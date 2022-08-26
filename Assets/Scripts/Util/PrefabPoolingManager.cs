@@ -8,11 +8,11 @@ using System;
 /// 例如：障碍物、道具、金币等
 /// </summary>
 
-public class ObjectPoolingManager : MonoBehaviour
+public class PrefabPoolingManager : MonoBehaviour
 {
     // 使用单例模式
-    private static ObjectPoolingManager instance;
-    public static ObjectPoolingManager Instance { get { return instance; } }
+    private static PrefabPoolingManager instance;
+    public static PrefabPoolingManager Instance { get { return instance; } }
 
     // 预制体数组 在Inspector面板初始化
     public PrefabData[] prefabs;  
