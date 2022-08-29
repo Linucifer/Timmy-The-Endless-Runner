@@ -6,6 +6,7 @@ public class GameInitialler : MonoBehaviour
 {
     private void Awake()
     {
-        SectionController.GeneratePoints();
+        SectionController.Initialize();
+
     }
 }

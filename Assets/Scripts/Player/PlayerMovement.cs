@@ -34,11 +34,13 @@ public class PlayerMovement : MonoBehaviour
         transform.position = spownPosition; // 初始化玩家出生点
         jumpVelocity = Vector3.zero;        // 初始化玩家的起跳速度
         m_rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     private void Start()
     {
         jumpVelocity = new Vector3(0, Mathf.Sqrt(2f * 9.81f * jumpHeight));
+        SectionController.GenerateSection();
     }
 
     private void Update()
@@ -97,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         if (direction < 0)
         {   
             // 判断水平移动是否左越界
-            if (playerXPos > Street.leftSide)
+            if (playerXPos > SectionController.leftSide)
                 transform.Translate(Vector3.right * direction * moveHorizonSpeed * Time.deltaTime, 
                     Space.World);
         }
@@ -105,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // 判断水平移动是否右越界
-            if (playerXPos < Street.rightSide)
+            if (playerXPos < SectionController.rightSide)
                 transform.Translate(Vector3.right * direction * moveHorizonSpeed * Time.deltaTime, 
                     Space.World);
         }
@@ -134,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
     // 重置玩家的移动状态
     private void MovementStateReset()
     {
-        if (Mathf.Abs(transform.position.y) <= 0.01)
+        if (Mathf.Abs(transform.position.y) <= 0.51f)
         {
             isGrounded = true;
         }

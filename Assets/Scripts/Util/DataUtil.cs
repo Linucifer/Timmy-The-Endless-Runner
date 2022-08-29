@@ -2,19 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 定义跑道数据
-public static class Street
+
+// 单位跑道控制器
+public static class SectionController
 {
     // 定义跑道左右边界
     public static float leftSide = -3f;
     public static float rightSide = 3f;
 
-
-}
-
-// 控制循环生成跑道
-public static class SectionController
-{
     public static float sectionLenght = 60f;// 每个Section的长度
 
     public static float zDistance = 10f;    // 生成点在Z轴上的默认间隔
@@ -30,9 +25,9 @@ public static class SectionController
         allGneratorPoints.Clear();
         for (int i = 0; i < sectionLenght / zDistance; i++)
         {
-            allGneratorPoints.Add(new Vector3(-2, 0, -sectionLenght / 2 + i * zDistance));
-            allGneratorPoints.Add(new Vector3(0, 0, -sectionLenght / 2 + i * zDistance));
-            allGneratorPoints.Add(new Vector3(2, 0, -sectionLenght / 2 + i * zDistance));
+            allGneratorPoints.Add(new Vector3(-2.2f, 0.5f, -sectionLenght / 2 + i * zDistance));
+            allGneratorPoints.Add(new Vector3(0, 0.5f, -sectionLenght / 2 + i * zDistance));
+            allGneratorPoints.Add(new Vector3(2.2f, 0.5f, -sectionLenght / 2 + i * zDistance));
         }
     }
 
@@ -43,8 +38,11 @@ public static class SectionController
     {
         // 判断参数是否合法
         if (pointNum > allGneratorPoints.Count)
+        {
             Debug.Log("获取生成点失败：所需的生成点数目过大");
-
+            return;
+        }
+ 
         // 清除原列表中的数据
         someGeneratePoints.Clear();
         // 记录已选择的生成点索引
@@ -75,22 +73,46 @@ public static class SectionController
         }
     }
 
+    public static List<PrefabName> prefabNames = new List<PrefabName>();
+
     public static void GenerateSection()
     {
+        // 获取指定数量的道具和障碍物生成点
         GetSomePoints(10);
+
+        // 根据获取的生成点生成一个单位的跑道（Section）
         GameObject section =
             PrefabPoolingManager.Instance.GetPrefabInstanceByName(PrefabName.SECTION);
         section.transform.position = new Vector3(0, 0, sectionZPosition);
         section.SetActive(true);
         sectionZPosition += sectionLenght;
 
+        
         foreach (Vector3 item in someGeneratePoints)
         {
-            GameObject obj = PrefabPoolingManager.Instance.GetPrefabInstanceByName(PrefabName.TURTLE_SHELL);
+            Debug.Log("Generate Point: " + item);
+
+
+            int index = Random.Range(0, prefabNames.Count);
+            PrefabName prefabName = prefabNames[index];
+            GameObject obj = PrefabPoolingManager.Instance.GetPrefabInstanceByName(prefabName);
 
             obj.transform.SetParent(section.transform);
             obj.transform.localPosition = item;
             obj.SetActive(true);
+        }
+    }
+
+    public static void Initialize()
+    {
+        GeneratePoints();
+
+        foreach (PrefabName item in System.Enum.GetValues(typeof(PrefabName)))
+        {
+            if (!item.Equals(PrefabName.SECTION))
+            {
+                prefabNames.Add(item);
+            }
         }
     }
 }
@@ -100,9 +122,9 @@ public enum PrefabName
 {
     ROCK,           // 岩石
     TREE_STUMP,     // 树桩
-    SECTION,        // 一个单位长度的跑道
     SLIME,          // 粘液怪
     TURTLE_SHELL,   // 乌龟障碍物
+    SECTION,        // 一个单位长度的跑道
 }
 
 // 预制体数据结构体

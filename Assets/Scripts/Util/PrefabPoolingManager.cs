@@ -33,7 +33,7 @@ public class PrefabPoolingManager : MonoBehaviour
             List<GameObject> tempList = new List<GameObject>();
             for (int i = 0; i < item.amount; i++)
             {
-                GameObject tempInstance = Instantiate(item.prefab, transform);
+                GameObject tempInstance = Instantiate(item.prefab, gameObject.transform);
                 tempInstance.SetActive(false);
                 tempList.Add(tempInstance);
             }
@@ -73,6 +73,8 @@ public class PrefabPoolingManager : MonoBehaviour
         tempInstance.SetActive(true);
         instanceList.Add(tempInstance);
         tempPrefab.amount++;
+        Debug.Log("Prefab Instance is empty!!!!");
+
 
         return tempInstance;
     }

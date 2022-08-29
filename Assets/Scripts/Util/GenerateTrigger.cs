@@ -8,6 +8,8 @@ public class GenerateTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         SectionController.GenerateSection();
+        Debug.Log(other.name);
+
     }
 
 }

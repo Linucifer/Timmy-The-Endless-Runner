@@ -13,7 +13,9 @@ public class PrefabController : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.z < mainCam.transform.position.z - SectionController.sectionLenght)
+        float distance = Vector3.Distance(mainCam.transform.position, transform.position);
+
+        if (distance > 2 * SectionController.sectionLenght)
         {
             gameObject.SetActive(false);
         }
