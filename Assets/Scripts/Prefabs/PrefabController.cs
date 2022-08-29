@@ -19,5 +19,14 @@ public class PrefabController : MonoBehaviour
         }
     }
 
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name.Equals("Player"))
+        {
+            Debug.Log("Player Collision!!");
+
+        }
+    }
+
+
 }

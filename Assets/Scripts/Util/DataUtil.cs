@@ -86,7 +86,7 @@ public static class SectionController
 
         foreach (Vector3 item in someGeneratePoints)
         {
-            GameObject obj = PrefabPoolingManager.Instance.GetPrefabInstanceByName(PrefabName.TREE_STUMP);
+            GameObject obj = PrefabPoolingManager.Instance.GetPrefabInstanceByName(PrefabName.TURTLE_SHELL);
 
             obj.transform.SetParent(section.transform);
             obj.transform.localPosition = item;
@@ -101,6 +101,8 @@ public enum PrefabName
     ROCK,           // 岩石
     TREE_STUMP,     // 树桩
     SECTION,        // 一个单位长度的跑道
+    SLIME,          // 粘液怪
+    TURTLE_SHELL,   // 乌龟障碍物
 }
 
 // 预制体数据结构体
